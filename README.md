@@ -5,9 +5,9 @@ A simple web scraping lib for Python
 
 #Install the framework:
 
-- easy_install https://github.com/cungnv/scrapex/archive/master.zip
+- easy_install https://github.com/valen0214/scrapex/archive/master.zip
 or
-- pip install https://github.com/cungnv/scrapex/archive/master.zip
+- pip install https://github.com/valen0214/scrapex/archive/master.zip
 
 #Install lxml
 Checkout the [guidelines](http://lxml.de/installation.html)
@@ -21,7 +21,7 @@ Checkout the [guidelines](http://lxml.de/installation.html)
 - DataItem (an unicode wraper): another convenient object to help manipulate a string easily, including extract data using regex.
 
 ##Code example:
-Please checkout [sample project](https://github.com/cungnv/scrapex/blob/master/sample/gm.py)
+Please checkout [sample project](https://github.com/valen0214/scrapex/blob/master/sample/gm.py)
 
 A simple usage
 ```

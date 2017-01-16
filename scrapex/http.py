@@ -283,6 +283,8 @@ class Client(object):
 		
 		self.opener = create_opener(use_cookie=True)
 
+		self.resp = None
+
 		
 
 		if scraper.config.get('use_requests') is True:
@@ -385,6 +387,8 @@ class Client(object):
 
 
 				rawdata = res.read()
+
+				self.resp = res
 				
 				if 'gzip' in res.headers.get('content-encoding','').lower():
 					bytes = zlib.decompress(rawdata, 16+zlib.MAX_WBITS)

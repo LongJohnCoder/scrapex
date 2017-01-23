@@ -31,13 +31,53 @@ class ProxyManager(object):
 	
 	""" for proxy rotation controlling """
 
-	def __init__(self, proxy_file, proxy_auth=''):		
+	def __init__(self, proxy_file, proxy_auth='', one_proxy=False):		
 		self.proxy_file = proxy_file
 		self.proxy_auth = proxy_auth
 		self.proxies = []
 
-		self.load_proxies()
+		if ( one_proxy is True ):
+			self.load_oneproxy()
+		else:
+			self.load_proxies()
 
+
+	def load_oneproxy(self):		
+		proxy_file = self.proxy_file
+
+		if proxy_file:
+			if not os.path.exists(proxy_file):
+				raise Exception('proxy_file not found: {0}'.format(proxy_file))
+			
+			proxy_auth_found = False
+			proxy_selected = False
+
+			lines = common.read_lines(proxy_file)
+			while ( True ):
+				line = random.choice( lines )
+				if 'proxy_auth' in line:
+					if ( proxy_auth_found is False):
+						self.proxy_auth = common.DataItem(line).rr('proxy_auth\s*=\s*').trim()
+						proxy_auth_found = True
+				else:
+					if ( proxy_selected is False ):
+						#support tab, commas separator as well
+						line = line.replace('\t',':').replace(',',':')	
+						self.proxies.append(line)
+						proxy_selected = True
+
+				if ( proxy_selected ):
+					if ( proxy_auth_found ):
+						break
+					else:
+						for line in lines:
+							if 'proxy_auth' in line:
+								self.proxy_auth = common.DataItem(line).rr('proxy_auth\s*=\s*').trim()
+								proxy_auth_found = True
+								break
+						if ( proxy_auth_found ):
+							break
+		return self	
 
 	def load_proxies(self):		
 		proxy_file = self.proxy_file

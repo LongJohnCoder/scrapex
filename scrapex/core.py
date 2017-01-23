@@ -30,7 +30,8 @@ class Scraper(object):
 			show_status_message = True,
 			max_redirects = 3,
 			debug = True,
-			log_file = 'log.txt'
+			log_file = 'log.txt',
+			one_proxy = False
 
 			)
 
@@ -101,7 +102,11 @@ class Scraper(object):
 
 			
 			
-		self.proxy_manager = http.ProxyManager(proxy_file= self.join_path( self.config.get('proxy_file') ) if self.config.get('proxy_file') else None, proxy_auth=self.config.get('proxy_auth'))
+		if ( self.config.get('one_proxy') is True ):
+			self.proxy_manager = http.ProxyManager(proxy_file= self.join_path( self.config.get('proxy_file') ) if self.config.get('proxy_file') else None, proxy_auth=self.config.get('proxy_auth'), one_proxy=True)
+			self.logger.info('Selected proxy -> ' + str(self.proxy_manager.proxies))
+		else:
+			self.proxy_manager = http.ProxyManager(proxy_file= self.join_path( self.config.get('proxy_file') ) if self.config.get('proxy_file') else None, proxy_auth=self.config.get('proxy_auth'))
 		
 		self.client = http.Client(scraper=self)
 

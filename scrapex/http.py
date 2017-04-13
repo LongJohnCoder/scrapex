@@ -111,7 +111,11 @@ class ProxyManager(object):
 		if len(proxy.split(':')) == 4:
 			proxy = proxy.split(':')
 			return Proxy(host=proxy[0], port=proxy[1], proxy_auth='%s:%s' % (proxy[2], proxy[3]))
-			
+		
+		# IP authenticated or free proxy
+		if len(proxy.split(':')) == 2:
+			proxy = proxy.split(':')
+			return Proxy(host=proxy[0], port=proxy[1], proxy_auth=None)
 			
 		return None
 
